@@ -1,166 +1,227 @@
-body{
-  font-family:Arial;
-  background:linear-gradient(to right,#dfe9f3,#ffffff);
-  padding:20px;
+let customers =
+JSON.parse(localStorage.getItem("customers")) || [];
+
+showCustomers();
+
+function toggleCustomers(){
+
+let section =
+document.getElementById("customerSection");
+
+if(section.style.display == "none"){
+  section.style.display = "block";
+}
+else{
+  section.style.display = "none";
 }
 
-.container{
-  background:white;
-  padding:20px;
-  border-radius:20px;
-  max-width:700px;
-  margin:auto;
-  box-shadow:0px 5px 20px rgba(0,0,0,0.1);
 }
 
-.shop-logo{
-  width:130px;
-  height:130px;
-  border-radius:50%;
-  display:block;
-  margin:auto;
-  border:4px solid #4CAF50;
+function saveCustomer(){
+
+let name =
+document.getElementById("name").value;
+
+let item =
+document.getElementById("item").value;
+
+let price =
+document.getElementById("price").value;
+
+let phone =
+document.getElementById("phone").value;
+
+if(name=="" || item=="" || price=="" || phone==""){
+  alert("Please Fill All Fields");
+  return;
 }
 
-h1{
-  text-align:center;
-  color:#222;
-  margin-top:15px;
+let customer = {
+  name:name,
+  item:item,
+  price:Number(price),
+  phone:phone,
+  balance:Number(price)
+};
+
+customers.push(customer);
+
+localStorage.setItem(
+"customers",
+JSON.stringify(customers)
+);
+
+clearInputs();
+
+showCustomers();
+
 }
 
-.dashboard{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
-  margin-top:25px;
+function showCustomers(){
+
+let customerList =
+document.getElementById("customerList");
+
+customerList.innerHTML = "";
+
+let total = 0;
+
+let paid = 0;
+
+customers.forEach((c,index)=>{
+
+total += c.balance;
+
+if(c.balance == 0){
+  paid++;
 }
 
-.card{
-  background:linear-gradient(135deg,#667eea,#764ba2);
-  color:white;
-  padding:20px;
-  border-radius:15px;
-  text-align:center;
-  box-shadow:0px 4px 10px rgba(0,0,0,0.2);
+customerList.innerHTML += `
+
+<div class="customer">
+
+<h2>👤 ${c.name}</h2>
+
+<p><b>🛒 Items:</b> ${c.item}</p>
+
+<p><b>💰 Total:</b> ₹${c.price}</p>
+
+<p><b>📌 Balance:</b> ₹${c.balance}</p>
+
+<p><b>📞 Phone:</b> ${c.phone}</p>
+
+<a href="tel:${c.phone}">
+<button class="call-btn">
+📞 Call Customer
+</button>
+</a>
+
+<button class="pay-btn"
+onclick="clearBalance(${index})">
+✅ Payment Done
+</button>
+
+<button class="edit-btn"
+onclick="editAmount(${index})">
+✏ Edit Amount
+</button>
+
+<button class="delete-btn"
+onclick="deleteCustomer(${index})">
+🗑 Delete Customer
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("totalUdhar").innerHTML =
+"💵 Total Shop Udhari: ₹" + total;
+
+document.getElementById("totalCustomers").innerHTML =
+customers.length;
+
+document.getElementById("pendingAmount").innerHTML =
+"₹" + total;
+
+document.getElementById("paidCustomers").innerHTML =
+paid;
+
 }
 
-.card h3{
-  margin:0;
-  font-size:18px;
+function clearBalance(index){
+
+customers[index].balance = 0;
+
+localStorage.setItem(
+"customers",
+JSON.stringify(customers)
+);
+
+showCustomers();
+
 }
 
-.card p{
-  font-size:24px;
-  font-weight:bold;
-  margin-top:10px;
+function deleteCustomer(index){
+
+let confirmDelete =
+confirm("Delete Customer?");
+
+if(confirmDelete){
+
+customers.splice(index,1);
+
+localStorage.setItem(
+"customers",
+JSON.stringify(customers)
+);
+
+showCustomers();
+
 }
 
-.customer-toggle{
-  width:100%;
-  padding:15px;
-  margin-top:25px;
-  background:linear-gradient(to right,#ff512f,#dd2476);
-  color:white;
-  border:none;
-  border-radius:12px;
-  font-size:22px;
-  font-weight:bold;
-  cursor:pointer;
-  transition:0.3s;
 }
 
-.customer-toggle:hover{
-  transform:scale(1.02);
+function editAmount(index){
+
+let newAmount =
+prompt("Enter New Amount");
+
+if(newAmount != null){
+
+customers[index].price =
+Number(newAmount);
+
+customers[index].balance =
+Number(newAmount);
+
+localStorage.setItem(
+"customers",
+JSON.stringify(customers)
+);
+
+showCustomers();
+
 }
 
-.customer-form{
-  background:#f9f9f9;
-  padding:20px;
-  border-radius:15px;
-  margin-top:20px;
-  box-shadow:0px 2px 8px rgba(0,0,0,0.1);
 }
 
-input{
-  width:100%;
-  padding:14px;
-  margin-top:12px;
-  border-radius:10px;
-  border:1px solid #ccc;
-  box-sizing:border-box;
-  font-size:15px;
+function searchCustomer(){
+
+let input =
+document.getElementById("search")
+.value.toLowerCase();
+
+let customerDivs =
+document.getElementsByClassName("customer");
+
+customers.forEach((c,index)=>{
+
+let name = c.name.toLowerCase();
+
+if(name.includes(input)){
+  customerDivs[index].style.display =
+  "block";
+}
+else{
+  customerDivs[index].style.display =
+  "none";
 }
 
-input:focus{
-  outline:none;
-  border:2px solid #4CAF50;
+});
+
 }
 
-button{
-  width:100%;
-  padding:13px;
-  margin-top:12px;
-  border:none;
-  border-radius:10px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-  transition:0.3s;
-}
+function clearInputs(){
 
-button:hover{
-  opacity:0.9;
-}
+document.getElementById("name").value = "";
 
-.customer{
-  background:white;
-  padding:20px;
-  margin-top:20px;
-  border-radius:15px;
-  border-left:8px solid #4CAF50;
-  box-shadow:0px 4px 10px rgba(0,0,0,0.1);
-}
+document.getElementById("item").value = "";
 
-.customer h2{
-  color:#333;
-  margin-bottom:10px;
-}
+document.getElementById("price").value = "";
 
-.customer p{
-  margin:8px 0;
-  color:#555;
-  font-size:15px;
-}
+document.getElementById("phone").value = "";
 
-.call-btn{
-  background:#2196F3;
-  color:white;
-}
-
-.pay-btn{
-  background:#4CAF50;
-  color:white;
-}
-
-.edit-btn{
-  background:#FF9800;
-  color:white;
-}
-
-.delete-btn{
-  background:#F44336;
-  color:white;
-}
-
-#search{
-  margin-top:20px;
-}
-
-#totalUdhar{
-  text-align:center;
-  margin-top:20px;
-  color:#222;
-  background:#e8f5e9;
-  padding:12px;
-  border-radius:10px;
 }
