@@ -8,81 +8,90 @@
 
 <div class="container">
 
-<img src="shop.jpg" class="shop-logo">
+  <!-- Shop Logo -->
+  <img src="shop.jpg" class="shop-logo">
 
-<h1>📒 My Shop Udhar Book</h1>
+  <!-- Title -->
+  <h1>📒 My Shop Udhar Book</h1>
 
-<!-- Dashboard -->
+  <!-- Dashboard -->
 
-<div class="dashboard">
+  <div class="dashboard">
 
-<div class="card">
-<h3>Total Customers</h3>
-<p id="totalCustomers">0</p>
-</div>
+    <div class="card">
+      <h3>Total Customers</h3>
+      <p id="totalCustomers">0</p>
+    </div>
 
-<div class="card">
-<h3>Total Pending</h3>
-<p id="pendingAmount">₹0</p>
-</div>
+    <div class="card">
+      <h3>Total Pending</h3>
+      <p id="pendingAmount">₹0</p>
+    </div>
 
-<div class="card">
-<h3>Paid Customers</h3>
-<p id="paidCustomers">0</p>
-</div>
+    <div class="card">
+      <h3>Paid Customers</h3>
+      <p id="paidCustomers">0</p>
+    </div>
 
-</div>
+  </div>
 
-<!-- Customer Toggle Button -->
+  <!-- Customer Button -->
 
-<button class="customer-toggle"
-onclick="toggleCustomers()">
+  <button class="customer-toggle"
+  onclick="toggleCustomers()">
 
-👥 Customers
+  👥 Customers
 
-</button>
+  </button>
 
-<!-- Hidden Customer Section -->
+  <!-- Hidden Customer Section -->
 
-<div id="customerSection" style="display:none;">
+  <div id="customerSection" style="display:none;">
 
-<div class="customer-form">
+    <!-- Customer Form -->
 
-<input type="text" id="name"
-placeholder="Customer Name">
+    <div class="customer-form">
 
-<input type="text" id="item"
-placeholder="Items (Sugar, Oil, Rice)">
+      <input type="text"
+      id="name"
+      placeholder="Customer Name">
 
-<input type="number" id="price"
-placeholder="Total Amount">
+      <input type="text"
+      id="item"
+      placeholder="Items (Sugar, Oil, Rice)">
 
-<input type="tel" id="phone"
-placeholder="Phone Number">
+      <input type="number"
+      id="price"
+      placeholder="Total Amount">
 
-<button onclick="saveCustomer()">
-➕ Add Customer
-</button>
+      <input type="tel"
+      id="phone"
+      placeholder="Phone Number">
 
-</div>
+      <button onclick="saveCustomer()">
+        ➕ Add Customer
+      </button>
 
-<!-- Search -->
+    </div>
 
-<input type="text" id="search"
-placeholder="🔍 Search Customer"
-onkeyup="searchCustomer()">
+    <!-- Search -->
 
-<!-- Total Udhari -->
+    <input type="text"
+    id="search"
+    placeholder="🔍 Search Customer"
+    onkeyup="searchCustomer()">
 
-<h2 id="totalUdhar">
-Total Shop Udhari: ₹0
-</h2>
+    <!-- Total Udhari -->
 
-<!-- Customer List -->
+    <h2 id="totalUdhar">
+      💵 Total Shop Udhari: ₹0
+    </h2>
 
-<div id="customerList"></div>
+    <!-- Customer List -->
 
-</div>
+    <div id="customerList"></div>
+
+  </div>
 
 </div>
 
