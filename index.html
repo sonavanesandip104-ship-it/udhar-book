@@ -8,85 +8,20 @@
 
 <div class="container">
 
-<img src="shop.jpg" class="shop-logo">
+<h1>📒 Udhar Book</h1>
 
-<h1>📒 My Shop Udhar Book</h1>
+<input type="text" id="name" placeholder="Customer Name">
 
-<!-- Dashboard -->
+<input type="number" id="amount" placeholder="Udhar Amount">
 
-<div class="dashboard">
+<input type="tel" id="phone" placeholder="Phone Number">
 
-<div class="card">
-<h3>Total Customers</h3>
-<p id="totalCustomers">0</p>
-</div>
-
-<div class="card">
-<h3>Total Pending</h3>
-<p id="pendingAmount">₹0</p>
-</div>
-
-<div class="card">
-<h3>Paid Customers</h3>
-<p id="paidCustomers">0</p>
-</div>
-
-</div>
-
-<!-- Customer Toggle Button -->
-
-<button class="customer-toggle"
-onclick="toggleCustomers()">
-
-👥 Customers
-
-</button>
-
-<!-- Hidden Customer Section -->
-
-<div id="customerSection" style="display:none;">
-
-<div class="customer-form">
-
-<input type="text" id="name"
-placeholder="Customer Name">
-
-<input type="text" id="item"
-placeholder="Items (Sugar, Oil, Rice)">
-
-<input type="number" id="price"
-placeholder="Total Amount">
-
-<input type="tel" id="phone"
-placeholder="Phone Number">
-
-<button onclick="saveCustomer()">
-➕ Add Customer
-</button>
-
-</div>
-
-<!-- Search -->
-
-<input type="text" id="search"
-placeholder="🔍 Search Customer"
-onkeyup="searchCustomer()">
-
-<!-- Total Udhari -->
-
-<h2 id="totalUdhar">
-Total Shop Udhari: ₹0
-</h2>
-
-<!-- Customer List -->
+<button onclick="saveCustomer()">Save Customer</button>
 
 <div id="customerList"></div>
 
 </div>
 
-</div>
-
 <script src="script.js"></script>
-
 </body>
 </html>
