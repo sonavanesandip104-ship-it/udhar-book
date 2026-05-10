@@ -3,31 +3,33 @@ JSON.parse(localStorage.getItem("data")) || [];
 
 show();
 
+/* ADD CUSTOMER */
+
 function addCustomer(){
 
 let name =
-document.getElementById("name").value;
+document.getElementById("name").value.trim();
 
 let phone =
-document.getElementById("phone").value;
+document.getElementById("phone").value.trim();
 
 let item =
-document.getElementById("item").value;
+document.getElementById("item").value.trim();
 
 let price =
 Number(document.getElementById("price").value);
 
-if(!name || !phone || !item || !price){
+if(name === "" || phone === "" || item === "" || !price){
 
   alert("Please Fill All Fields");
 
   return;
 }
 
-/* Existing Customer Check */
+/* EXISTING CUSTOMER */
 
 let existing =
-customers.find(c => c.phone == phone);
+customers.find(c => c.phone === phone);
 
 if(existing){
 
@@ -65,18 +67,24 @@ else{
 
 }
 
+/* SAVE */
+
 localStorage.setItem(
 "data",
 JSON.stringify(customers)
 );
 
+/* CLEAR INPUTS */
+
 clearInputs();
+
+/* REFRESH UI */
 
 show();
 
 }
 
-/* SHOW */
+/* SHOW CUSTOMERS */
 
 function show(){
 
@@ -160,6 +168,8 @@ Please Pay Your Udhari`
 
 });
 
+/* DASHBOARD */
+
 document.getElementById("pending").innerText =
 "₹" + total;
 
@@ -168,7 +178,7 @@ customers.length;
 
 }
 
-/* CLEAR ITEM PAYMENT */
+/* CLEAR PAYMENT */
 
 function clearItem(customerIndex,itemIndex){
 
@@ -208,13 +218,14 @@ document.querySelectorAll(".customer")
 
 c.style.display =
 c.innerText.toLowerCase().includes(value)
-? "block":"none";
+? "block"
+: "none";
 
 });
 
 }
 
-/* CLEAR INPUT */
+/* CLEAR INPUTS */
 
 function clearInputs(){
 
