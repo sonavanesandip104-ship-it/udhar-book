@@ -10,6 +10,7 @@ body{
   background:white;
   padding:20px;
   border-radius:20px;
+  box-shadow:0px 5px 15px rgba(0,0,0,0.1);
 }
 
 .shop-logo{
@@ -19,6 +20,7 @@ body{
   display:block;
   margin:auto;
   object-fit:cover;
+  border:4px solid #6c5ce7;
 }
 
 h1{
@@ -29,6 +31,7 @@ h1{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:15px;
+  margin-top:20px;
 }
 
 .card{
@@ -43,6 +46,9 @@ h1{
   width:100%;
   padding:12px;
   margin-top:10px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  box-sizing:border-box;
 }
 
 button{
@@ -53,6 +59,21 @@ button{
   border-radius:10px;
   background:#00b894;
   color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:0.9;
+}
+
+#search{
+  width:100%;
+  padding:12px;
+  margin-top:20px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  box-sizing:border-box;
 }
 
 .customer{
@@ -69,8 +90,14 @@ button{
   border-radius:10px;
 }
 
-#search{
-  width:100%;
-  padding:12px;
-  margin-top:20px;
+.action-btn{
+  background:#0984e3;
+}
+
+.pay-btn{
+  background:#e17055;
+}
+
+.whatsapp-btn{
+  background:#25D366;
 }
