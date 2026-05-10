@@ -21,8 +21,6 @@ return;
 
 }
 
-/* duplicate check */
-
 let existing =
 customers.find(c => c.phone === phone);
 
@@ -34,8 +32,6 @@ return;
 
 }
 
-/* new customer */
-
 customers.push({
 
 name:name,
@@ -45,25 +41,16 @@ balance:0
 
 });
 
-/* save */
+saveData();
 
-localStorage.setItem(
-"data",
-JSON.stringify(customers)
-);
-
-/* clear */
-
-document.getElementById("name").value = "";
-document.getElementById("phone").value = "";
-
-/* refresh */
+document.getElementById("name").value="";
+document.getElementById("phone").value="";
 
 show();
 
 }
 
-/* SHOW CUSTOMERS */
+/* SHOW */
 
 function show(){
 
@@ -86,10 +73,10 @@ entriesHTML += `
 
 <div class="entry">
 
-📅 ${e.date}
-<br>
-🛒 ${e.item}
-<br>
+📅 ${e.date}<br>
+
+🛒 ${e.item}<br>
+
 💰 ₹${e.price}
 
 </div>
@@ -108,8 +95,7 @@ list.innerHTML += `
 
 <h3>💵 Pending ₹${c.balance}</h3>
 
-<button class="action-btn"
-onclick="addEntry(${index})">
+<button onclick="addEntry(${index})">
 
 ➕ Add Daily Entry
 
@@ -124,9 +110,7 @@ onclick="receivePayment(${index})">
 
 <a target="_blank"
 href="https://wa.me/91${c.phone}?text=${encodeURIComponent(
-`📒 Udhar Reminder
-
-Pending Amount ₹${c.balance}`
+`Pending Amount ₹${c.balance}`
 )}">
 
 <button class="whatsapp-btn">
@@ -145,22 +129,20 @@ ${entriesHTML}
 
 });
 
-/* dashboard */
-
 document.getElementById("pending").innerText =
-"₹" + total;
+"₹"+total;
 
 document.getElementById("totalCustomers").innerText =
 customers.length;
 
 }
 
-/* ADD DAILY ENTRY */
+/* ADD ENTRY */
 
 function addEntry(index){
 
 let item =
-prompt("Enter Item Name");
+prompt("Enter Item");
 
 let price =
 prompt("Enter Price");
@@ -177,10 +159,7 @@ date:new Date().toLocaleDateString()
 
 customers[index].balance += Number(price);
 
-localStorage.setItem(
-"data",
-JSON.stringify(customers)
-);
+saveData();
 
 show();
 
@@ -188,7 +167,7 @@ show();
 
 }
 
-/* RECEIVE PAYMENT */
+/* PAYMENT */
 
 function receivePayment(index){
 
@@ -215,10 +194,7 @@ return;
 
 customers[index].balance -= amount;
 
-localStorage.setItem(
-"data",
-JSON.stringify(customers)
-);
+saveData();
 
 show();
 
@@ -241,5 +217,16 @@ c.innerText.toLowerCase().includes(value)
 : "none";
 
 });
+
+}
+
+/* SAVE */
+
+function saveData(){
+
+localStorage.setItem(
+"data",
+JSON.stringify(customers)
+);
 
 }
