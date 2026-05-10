@@ -39,32 +39,20 @@ h1{
 .card{
   background:linear-gradient(135deg,#667eea,#764ba2);
   color:white;
-  padding:20px;
+  padding:15px;
   border-radius:15px;
   text-align:center;
-  box-shadow:0px 4px 10px rgba(0,0,0,0.2);
-}
-
-.card h3{
-  margin:0;
-  font-size:18px;
-}
-
-.card p{
-  font-size:24px;
-  font-weight:bold;
-  margin-top:10px;
 }
 
 .customer-toggle{
   width:100%;
-  padding:15px;
+  padding:14px;
   margin-top:25px;
   background:linear-gradient(to right,#ff512f,#dd2476);
   color:white;
   border:none;
   border-radius:12px;
-  font-size:22px;
+  font-size:20px;
   font-weight:bold;
   cursor:pointer;
 }
@@ -74,12 +62,11 @@ h1{
   padding:20px;
   border-radius:15px;
   margin-top:20px;
-  box-shadow:0px 2px 8px rgba(0,0,0,0.1);
 }
 
 input{
   width:100%;
-  padding:14px;
+  padding:12px;
   margin-top:12px;
   border-radius:10px;
   border:1px solid #ccc;
@@ -93,19 +80,15 @@ input:focus{
 }
 
 button{
-  width:100%;
-  padding:13px;
-  margin-top:12px;
   border:none;
   border-radius:10px;
-  font-size:16px;
   font-weight:bold;
   cursor:pointer;
 }
 
 .customer{
   background:white;
-  padding:20px;
+  padding:18px;
   margin-top:20px;
   border-radius:15px;
   border-left:8px solid #4CAF50;
@@ -115,37 +98,51 @@ button{
 .customer h2{
   color:#333;
   margin-bottom:10px;
+  font-size:22px;
 }
 
 .customer p{
-  margin:8px 0;
+  margin:7px 0;
   color:#555;
-  font-size:15px;
+  font-size:14px;
+}
+
+/* BUTTON GRID */
+
+.button-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:15px;
+}
+
+.small-btn{
+  padding:10px;
+  font-size:13px;
+  border-radius:10px;
+  color:white;
+  width:100%;
 }
 
 .call-btn{
   background:#2196F3;
-  color:white;
-}
-
-.pay-btn{
-  background:#4CAF50;
-  color:white;
-}
-
-.edit-btn{
-  background:#FF9800;
-  color:white;
-}
-
-.delete-btn{
-  background:#F44336;
-  color:white;
 }
 
 .whatsapp-btn{
   background:#25D366;
-  color:white;
+}
+
+.pay-btn{
+  background:#4CAF50;
+}
+
+.edit-btn{
+  background:#FF9800;
+}
+
+.delete-btn{
+  background:#F44336;
+  grid-column:span 2;
 }
 
 #search{
