@@ -1,207 +1,76 @@
 body{
   font-family:Arial;
-  background:linear-gradient(135deg,#dfe9f3,#ffffff);
+  background:#eef2f7;
   padding:20px;
-  margin:0;
 }
-
-/* MAIN CONTAINER */
 
 .container{
   max-width:750px;
   margin:auto;
   background:white;
   padding:20px;
-  border-radius:25px;
-  box-shadow:0px 10px 30px rgba(0,0,0,0.1);
+  border-radius:20px;
 }
 
-/* SHOP LOGO */
-
 .shop-logo{
-  width:130px;
-  height:130px;
+  width:120px;
+  height:120px;
   border-radius:50%;
   display:block;
   margin:auto;
   object-fit:cover;
-  border:5px solid #6c5ce7;
-  box-shadow:0px 5px 15px rgba(0,0,0,0.2);
 }
-
-/* TITLE */
 
 h1{
   text-align:center;
-  margin-top:15px;
-  color:#2d3436;
-  font-size:32px;
 }
-
-/* DASHBOARD */
 
 .dashboard{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:15px;
-  margin-top:25px;
 }
 
 .card{
-  background:linear-gradient(135deg,#6c5ce7,#00cec9);
+  background:#6c5ce7;
   color:white;
   padding:20px;
-  border-radius:20px;
+  border-radius:15px;
   text-align:center;
-  box-shadow:0px 5px 15px rgba(0,0,0,0.1);
-}
-
-.card h3{
-  margin:0;
-  font-size:20px;
-}
-
-.card p{
-  margin-top:10px;
-  font-size:24px;
-  font-weight:bold;
-}
-
-/* FORM */
-
-.form{
-  margin-top:25px;
 }
 
 .form input{
   width:100%;
-  padding:14px;
-  margin-top:12px;
-  border-radius:12px;
-  border:1px solid #ccc;
-  box-sizing:border-box;
-  font-size:15px;
-  transition:0.3s;
+  padding:12px;
+  margin-top:10px;
 }
-
-.form input:focus{
-  border:2px solid #6c5ce7;
-  outline:none;
-  box-shadow:0px 0px 10px rgba(108,92,231,0.3);
-}
-
-/* BUTTONS */
 
 button{
   width:100%;
-  padding:13px;
-  margin-top:12px;
+  padding:12px;
+  margin-top:10px;
   border:none;
-  border-radius:12px;
-  font-size:15px;
-  font-weight:bold;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-/* ADD BUTTON */
-
-.form button{
-  background:linear-gradient(to right,#00b894,#00cec9);
+  border-radius:10px;
+  background:#00b894;
   color:white;
 }
 
-.form button:hover{
-  transform:scale(1.02);
+.customer{
+  background:#f1f2f6;
+  padding:15px;
+  margin-top:15px;
+  border-radius:15px;
 }
 
-/* SEARCH */
+.entry{
+  background:white;
+  padding:10px;
+  margin-top:10px;
+  border-radius:10px;
+}
 
 #search{
   width:100%;
-  padding:14px;
-  margin-top:25px;
-  border-radius:12px;
-  border:1px solid #ccc;
-  box-sizing:border-box;
-  font-size:15px;
-}
-
-/* CUSTOMER CARD */
-
-.customer{
-  background:linear-gradient(135deg,#f8f9fa,#ffffff);
-  padding:18px;
-  margin-top:20px;
-  border-radius:20px;
-  box-shadow:0px 5px 15px rgba(0,0,0,0.08);
-  border-left:8px solid #6c5ce7;
-}
-
-.customer h2{
-  margin:0;
-  color:#2d3436;
-}
-
-.customer p{
-  margin:8px 0;
-  color:#555;
-}
-
-/* ITEM BOX */
-
-.item-box{
-  background:#ffffff;
   padding:12px;
-  border-radius:15px;
-  margin-top:12px;
-  border:1px solid #eee;
-  box-shadow:0px 3px 8px rgba(0,0,0,0.05);
-}
-
-/* PAYMENT STATUS */
-
-.paid{
-  color:#00b894;
-  font-weight:bold;
-}
-
-.pending{
-  color:#d63031;
-  font-weight:bold;
-}
-
-/* CLEAR PAYMENT BUTTON */
-
-.item-box button{
-  background:linear-gradient(to right,#fdcb6e,#e17055);
-  color:white;
-}
-
-/* WHATSAPP BUTTON */
-
-.whatsapp-btn{
-  background:linear-gradient(to right,#25D366,#128C7E);
-  color:white;
-}
-
-/* TOTAL */
-
-.customer h3{
-  color:#2d3436;
-  margin-top:15px;
-}
-
-/* MOBILE RESPONSIVE */
-
-@media(max-width:600px){
-
-.dashboard{
-  grid-template-columns:1fr;
-}
-
-h1{
-  font-size:26px;
-}
-
+  margin-top:20px;
 }
