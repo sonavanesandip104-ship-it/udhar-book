@@ -1,92 +1,229 @@
-let customers = JSON.parse(localStorage.getItem("data")) || [];
+let customers =
+JSON.parse(localStorage.getItem("data")) || [];
 
 show();
 
 function addCustomer(){
 
-let name = document.getElementById("name").value;
-let phone = document.getElementById("phone").value;
-let item = document.getElementById("item").value;
-let price = Number(document.getElementById("price").value);
+let name =
+document.getElementById("name").value;
+
+let phone =
+document.getElementById("phone").value;
+
+let item =
+document.getElementById("item").value;
+
+let price =
+Number(document.getElementById("price").value);
 
 if(!name || !phone || !item || !price){
-  alert("Fill all fields");
+
+  alert("Please Fill All Fields");
+
   return;
 }
 
-customers.push({
-  name,
-  phone,
-  item,
-  price,
-  balance:price,
-  date:new Date().toLocaleDateString()
-});
+/* Existing Customer Check */
 
-localStorage.setItem("data",JSON.stringify(customers));
+let existing =
+customers.find(c => c.phone == phone);
+
+if(existing){
+
+  existing.items.push({
+
+    item:item,
+    price:price,
+    date:new Date().toLocaleDateString(),
+    paid:false
+
+  });
+
+  existing.balance += price;
+
+}
+else{
+
+  customers.push({
+
+    name:name,
+    phone:phone,
+
+    items:[
+      {
+        item:item,
+        price:price,
+        date:new Date().toLocaleDateString(),
+        paid:false
+      }
+    ],
+
+    balance:price
+
+  });
+
+}
+
+localStorage.setItem(
+"data",
+JSON.stringify(customers)
+);
 
 clearInputs();
+
 show();
 
 }
 
+/* SHOW */
+
 function show(){
 
-let list = document.getElementById("list");
-list.innerHTML="";
+let list =
+document.getElementById("list");
 
-let total=0,paid=0;
+list.innerHTML = "";
 
-customers.forEach(c=>{
+let total = 0;
+
+customers.forEach((c,index)=>{
 
 total += c.balance;
-if(c.balance==0) paid++;
 
-list.innerHTML += `
-<div class="customer">
+let itemsHTML = "";
 
-<h3>👤 ${c.name}</h3>
-<p>📅 ${c.date}</p>
-<p>🛒 ${c.item}</p>
-<p>💰 ₹${c.balance}</p>
+c.items.forEach((i,itemIndex)=>{
 
-<a target="_blank"
-href="https://wa.me/91${c.phone}?text=${encodeURIComponent(
-`Hi ${c.name}
-Item: ${c.item}
-Pending: ₹${c.balance}
-Please pay soon`
-)}">
+itemsHTML += `
 
-<button>💬 WhatsApp</button>
+<div class="item-box">
 
-</a>
+<p>📅 ${i.date}</p>
+
+<p>🛒 ${i.item}</p>
+
+<p>💰 ₹${i.price}</p>
+
+<p class="${i.paid ? 'paid':'pending'}">
+
+${i.paid ? '✅ Paid':'❌ Pending'}
+
+</p>
+
+<button onclick="clearItem(${index},${itemIndex})">
+
+✅ Clear Payment
+
+</button>
 
 </div>
+
 `;
 
 });
 
-document.getElementById("totalCustomers").innerText=customers.length;
-document.getElementById("pending").innerText="₹"+total;
-document.getElementById("paid").innerText=paid;
+list.innerHTML += `
+
+<div class="customer">
+
+<h2>👤 ${c.name}</h2>
+
+<p>📞 ${c.phone}</p>
+
+${itemsHTML}
+
+<h3>💵 Total Pending: ₹${c.balance}</h3>
+
+<a target="_blank"
+href="https://wa.me/91${c.phone}?text=${encodeURIComponent(
+`📒 Udhar Reminder
+
+👤 ${c.name}
+
+Pending Amount: ₹${c.balance}
+
+Please Pay Your Udhari`
+)}">
+
+<button class="whatsapp-btn">
+
+💬 WhatsApp Reminder
+
+</button>
+
+</a>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("pending").innerText =
+"₹" + total;
+
+document.getElementById("totalCustomers").innerText =
+customers.length;
 
 }
 
+/* CLEAR ITEM PAYMENT */
+
+function clearItem(customerIndex,itemIndex){
+
+let item =
+customers[customerIndex].items[itemIndex];
+
+if(item.paid){
+
+  alert("Already Paid");
+
+  return;
+}
+
+item.paid = true;
+
+customers[customerIndex].balance -= item.price;
+
+localStorage.setItem(
+"data",
+JSON.stringify(customers)
+);
+
+show();
+
+}
+
+/* SEARCH */
+
 function searchCustomer(){
 
-let val = document.getElementById("search").value.toLowerCase();
+let value =
+document.getElementById("search")
+.value.toLowerCase();
 
-document.querySelectorAll(".customer").forEach(c=>{
-  c.style.display = c.innerText.toLowerCase().includes(val)
-  ? "block":"none";
+document.querySelectorAll(".customer")
+.forEach(c=>{
+
+c.style.display =
+c.innerText.toLowerCase().includes(value)
+? "block":"none";
+
 });
 
 }
 
+/* CLEAR INPUT */
+
 function clearInputs(){
-document.getElementById("name").value="";
-document.getElementById("phone").value="";
-document.getElementById("item").value="";
-document.getElementById("price").value="";
+
+document.getElementById("name").value = "";
+
+document.getElementById("phone").value = "";
+
+document.getElementById("item").value = "";
+
+document.getElementById("price").value = "";
+
 }
