@@ -1,255 +1,111 @@
-let customers =
-JSON.parse(localStorage.getItem("customers")) || [];
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+getFirestore,
+collection,
+addDoc,
+getDocs
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-showCustomers();
+// 🔥 Firebase Config (replace your keys)
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN",
+  projectId: "YOUR_ID"
+};
 
-function toggleCustomers(){
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-let section =
-document.getElementById("customerSection");
+let customers = [];
 
-if(section.style.display == "none"){
-  section.style.display = "block";
-}
-else{
-  section.style.display = "none";
-}
+window.addCustomer = async function(){
 
-}
+let name = document.getElementById("name").value;
+let phone = document.getElementById("phone").value;
+let item = document.getElementById("item").value;
+let price = Number(document.getElementById("price").value);
 
-function saveCustomer(){
-
-let name =
-document.getElementById("name").value;
-
-let item =
-document.getElementById("item").value;
-
-let price =
-document.getElementById("price").value;
-
-let phone =
-document.getElementById("phone").value;
-
-if(name=="" || item=="" || price=="" || phone==""){
-  alert("Please Fill All Fields");
+if(!name || !phone || !item || !price){
+  alert("Fill all fields");
   return;
 }
 
-let customer = {
+await addDoc(collection(db,"customers"),{
+  name,
+  phone,
+  items:[{item,price}],
+  total:price,
+  balance:price,
+  date:new Date().toLocaleDateString(),
+  paid:false
+});
 
-  name:name,
-  item:item,
-  price:Number(price),
-  phone:phone,
-  balance:Number(price),
-  date:new Date().toLocaleDateString()
-
-};
-
-customers.push(customer);
-
-localStorage.setItem(
-"customers",
-JSON.stringify(customers)
-);
-
-clearInputs();
-
-showCustomers();
-
+load();
 }
 
-function showCustomers(){
+async function load(){
 
-let customerList =
-document.getElementById("customerList");
+let snap = await getDocs(collection(db,"customers"));
 
-customerList.innerHTML = "";
+customers = [];
 
-let total = 0;
+snap.forEach(doc=>{
+  customers.push(doc.data());
+});
 
-let paid = 0;
+render();
+}
 
-customers.forEach((c,index)=>{
+function render(){
+
+let list = document.getElementById("list");
+list.innerHTML="";
+
+let total=0,paid=0;
+
+customers.forEach(c=>{
 
 total += c.balance;
+if(c.paid) paid++;
 
-if(c.balance == 0){
-  paid++;
-}
-
-customerList.innerHTML += `
-
+list.innerHTML += `
 <div class="customer">
 
-<h2>👤 ${c.name}</h2>
-
-<p><b>📅 Date:</b> ${c.date}</p>
-
-<p><b>🛒 Items:</b> ${c.item}</p>
-
-<p><b>💰 Total:</b> ₹${c.price}</p>
-
-<p><b>📌 Pending:</b> ₹${c.balance}</p>
-
-<p><b>📞 Phone:</b> ${c.phone}</p>
-
-<div class="button-grid">
-
-<a href="tel:${c.phone}">
-<button class="small-btn call-btn">
-📞 Call
-</button>
-</a>
+<h3>👤 ${c.name}</h3>
+<p>📅 ${c.date}</p>
+<p>💰 ₹${c.balance}</p>
 
 <a target="_blank"
 href="https://wa.me/91${c.phone}?text=${encodeURIComponent(
-`🛒 Shop Udhar Reminder
-
-👤 Customer: ${c.name}
-📅 Date: ${c.date}
-🛍 Items: ${c.item}
-💰 Total: ₹${c.price}
-📌 Pending: ₹${c.balance}
-
-🙏 Please Pay Your Pending Amount`
+`Hi ${c.name}
+Pending: ₹${c.balance}
+Please pay soon`
 )}">
 
-<button class="small-btn whatsapp-btn">
-💬 WhatsApp
-</button>
+<button>💬 WhatsApp</button>
 
 </a>
 
-<button class="small-btn pay-btn"
-onclick="clearBalance(${index})">
-✅ Paid
-</button>
-
-<button class="small-btn edit-btn"
-onclick="editAmount(${index})">
-✏ Edit
-</button>
-
-<button class="small-btn delete-btn"
-onclick="deleteCustomer(${index})">
-🗑 Delete
-</button>
-
 </div>
-
-</div>
-
 `;
 
 });
 
-document.getElementById("totalUdhar").innerHTML =
-"💵 Total Shop Udhari: ₹" + total;
-
-document.getElementById("totalCustomers").innerHTML =
-customers.length;
-
-document.getElementById("pendingAmount").innerHTML =
-"₹" + total;
-
-document.getElementById("paidCustomers").innerHTML =
-paid;
+document.getElementById("pending").innerText="₹"+total;
+document.getElementById("totalCustomers").innerText=customers.length;
+document.getElementById("paid").innerText=paid;
 
 }
 
-function clearBalance(index){
+window.search = function(){
 
-customers[index].balance = 0;
+let val = document.getElementById("search").value.toLowerCase();
 
-localStorage.setItem(
-"customers",
-JSON.stringify(customers)
-);
-
-showCustomers();
-
-}
-
-function deleteCustomer(index){
-
-let confirmDelete =
-confirm("Delete Customer?");
-
-if(confirmDelete){
-
-customers.splice(index,1);
-
-localStorage.setItem(
-"customers",
-JSON.stringify(customers)
-);
-
-showCustomers();
-
-}
-
-}
-
-function editAmount(index){
-
-let newAmount =
-prompt("Enter New Amount");
-
-if(newAmount != null){
-
-customers[index].price =
-Number(newAmount);
-
-customers[index].balance =
-Number(newAmount);
-
-localStorage.setItem(
-"customers",
-JSON.stringify(customers)
-);
-
-showCustomers();
-
-}
-
-}
-
-function searchCustomer(){
-
-let input =
-document.getElementById("search")
-.value.toLowerCase();
-
-let customerDivs =
-document.getElementsByClassName("customer");
-
-customers.forEach((c,index)=>{
-
-let name = c.name.toLowerCase();
-
-if(name.includes(input)){
-  customerDivs[index].style.display =
-  "block";
-}
-else{
-  customerDivs[index].style.display =
-  "none";
-}
-
+document.querySelectorAll(".customer").forEach(el=>{
+  el.style.display = el.innerText.toLowerCase().includes(val)
+  ? "block":"none";
 });
 
 }
 
-function clearInputs(){
-
-document.getElementById("name").value = "";
-
-document.getElementById("item").value = "";
-
-document.getElementById("price").value = "";
-
-document.getElementById("phone").value = "";
-
-}
+load();
