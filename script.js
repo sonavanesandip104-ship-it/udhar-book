@@ -37,11 +37,14 @@ if(name=="" || item=="" || price=="" || phone==""){
 }
 
 let customer = {
+
   name:name,
   item:item,
   price:Number(price),
   phone:phone,
-  balance:Number(price)
+  balance:Number(price),
+  date:new Date().toLocaleDateString()
+
 };
 
 customers.push(customer);
@@ -82,6 +85,8 @@ customerList.innerHTML += `
 
 <h2>👤 ${c.name}</h2>
 
+<p><b>📅 Date:</b> ${c.date}</p>
+
 <p><b>🛒 Items:</b> ${c.item}</p>
 
 <p><b>💰 Total:</b> ₹${c.price}</p>
@@ -94,6 +99,21 @@ customerList.innerHTML += `
 <button class="call-btn">
 📞 Call Customer
 </button>
+</a>
+
+<a href="https://wa.me/91${c.phone}?text=
+🛒%20Shop%20Udhar%20Reminder%0A%0A
+👤%20Customer:%20${c.name}%0A
+📅%20Date:%20${c.date}%0A
+🛍%20Items:%20${c.item}%0A
+💰%20Total:%20₹${c.price}%0A
+📌%20Pending:%20₹${c.balance}%0A%0A
+🙏%20Please%20Pay%20Your%20Pending%20Amount">
+
+<button class="whatsapp-btn">
+💬 WhatsApp Reminder
+</button>
+
 </a>
 
 <button class="pay-btn"
