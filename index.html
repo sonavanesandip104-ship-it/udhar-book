@@ -9,63 +9,49 @@
 
 <div class="container">
 
-  <!-- Shop Photo -->
-  <img src="shop.jpg" class="shop-logo">
+<img src="shop.jpg" class="shop-logo">
 
-  <h1>📒 Smart Udhar Book</h1>
+<h1>📒 Smart Udhar Book</h1>
 
-  <!-- Dashboard -->
+<div class="dashboard">
 
-  <div class="dashboard">
+<div class="card">
+<h3>Total Customers</h3>
+<p id="totalCustomers">0</p>
+</div>
 
-    <div class="card">
-      <h3>Total Customers</h3>
-      <p id="totalCustomers">0</p>
-    </div>
+<div class="card">
+<h3>Total Pending</h3>
+<p id="pending">₹0</p>
+</div>
 
-    <div class="card">
-      <h3>Total Pending</h3>
-      <p id="pending">₹0</p>
-    </div>
+</div>
 
-  </div>
+<!-- ADD CUSTOMER -->
 
-  <!-- Form -->
+<div class="form">
 
-  <div class="form">
+<input id="name" placeholder="Customer Name">
 
-    <input type="text"
-    id="name"
-    placeholder="Customer Name">
+<input id="phone" placeholder="Phone Number">
 
-    <input type="tel"
-    id="phone"
-    placeholder="Phone Number">
+<button onclick="addCustomer()">
 
-    <input type="text"
-    id="item"
-    placeholder="Item Name">
+➕ Add Customer
 
-    <input type="number"
-    id="price"
-    placeholder="Price">
+</button>
 
-    <button onclick="addCustomer()">
-      ➕ Add Entry
-    </button>
+</div>
 
-  </div>
+<!-- SEARCH -->
 
-  <!-- Search -->
+<input id="search"
+placeholder="🔍 Search Customer"
+onkeyup="searchCustomer()">
 
-  <input type="text"
-  id="search"
-  placeholder="🔍 Search Customer"
-  onkeyup="searchCustomer()">
+<!-- CUSTOMER LIST -->
 
-  <!-- Customer List -->
-
-  <div id="list"></div>
+<div id="list"></div>
 
 </div>
 
