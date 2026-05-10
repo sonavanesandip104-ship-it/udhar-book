@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pro Udhar Book</title>
-
-  <!-- CSS LINK (IMPORTANT) -->
+  <title>Smart Udhar Book</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,12 +9,13 @@
 
 <div class="container">
 
-  <!-- SHOP PHOTO -->
-  <img src="shop.jpg" class="shop-logo" alt="Shop Logo">
+  <!-- Shop Photo -->
+  <img src="shop.jpg" class="shop-logo">
 
-  <h1>📒 Pro Udhar Book</h1>
+  <h1>📒 Smart Udhar Book</h1>
 
-  <!-- DASHBOARD -->
+  <!-- Dashboard -->
+
   <div class="dashboard">
 
     <div class="card">
@@ -25,30 +24,46 @@
     </div>
 
     <div class="card">
-      <h3>Pending</h3>
+      <h3>Total Pending</h3>
       <p id="pending">₹0</p>
     </div>
 
-    <div class="card">
-      <h3>Paid</h3>
-      <p id="paid">0</p>
-    </div>
-
   </div>
 
-  <!-- FORM -->
+  <!-- Form -->
+
   <div class="form">
 
-    <input id="name" placeholder="Customer Name">
-    <input id="phone" placeholder="Phone Number">
-    <input id="item" placeholder="Item">
-    <input id="price" type="number" placeholder="Price">
+    <input type="text"
+    id="name"
+    placeholder="Customer Name">
 
-    <button onclick="addCustomer()">➕ Add Customer</button>
+    <input type="tel"
+    id="phone"
+    placeholder="Phone Number">
+
+    <input type="text"
+    id="item"
+    placeholder="Item Name">
+
+    <input type="number"
+    id="price"
+    placeholder="Price">
+
+    <button onclick="addCustomer()">
+      ➕ Add Entry
+    </button>
 
   </div>
 
-  <input id="search" placeholder="🔍 Search" onkeyup="searchCustomer()">
+  <!-- Search -->
+
+  <input type="text"
+  id="search"
+  placeholder="🔍 Search Customer"
+  onkeyup="searchCustomer()">
+
+  <!-- Customer List -->
 
   <div id="list"></div>
 
