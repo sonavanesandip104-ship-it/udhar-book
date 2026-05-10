@@ -91,45 +91,53 @@ customerList.innerHTML += `
 
 <p><b>💰 Total:</b> ₹${c.price}</p>
 
-<p><b>📌 Balance:</b> ₹${c.balance}</p>
+<p><b>📌 Pending:</b> ₹${c.balance}</p>
 
 <p><b>📞 Phone:</b> ${c.phone}</p>
 
+<div class="button-grid">
+
 <a href="tel:${c.phone}">
-<button class="call-btn">
-📞 Call Customer
+<button class="small-btn call-btn">
+📞 Call
 </button>
 </a>
 
-<a href="https://wa.me/91${c.phone}?text=
-🛒%20Shop%20Udhar%20Reminder%0A%0A
-👤%20Customer:%20${c.name}%0A
-📅%20Date:%20${c.date}%0A
-🛍%20Items:%20${c.item}%0A
-💰%20Total:%20₹${c.price}%0A
-📌%20Pending:%20₹${c.balance}%0A%0A
-🙏%20Please%20Pay%20Your%20Pending%20Amount">
+<a target="_blank"
+href="https://wa.me/91${c.phone}?text=${encodeURIComponent(
+`🛒 Shop Udhar Reminder
 
-<button class="whatsapp-btn">
-💬 WhatsApp Reminder
+👤 Customer: ${c.name}
+📅 Date: ${c.date}
+🛍 Items: ${c.item}
+💰 Total: ₹${c.price}
+📌 Pending: ₹${c.balance}
+
+🙏 Please Pay Your Pending Amount`
+)}">
+
+<button class="small-btn whatsapp-btn">
+💬 WhatsApp
 </button>
 
 </a>
 
-<button class="pay-btn"
+<button class="small-btn pay-btn"
 onclick="clearBalance(${index})">
-✅ Payment Done
+✅ Paid
 </button>
 
-<button class="edit-btn"
+<button class="small-btn edit-btn"
 onclick="editAmount(${index})">
-✏ Edit Amount
+✏ Edit
 </button>
 
-<button class="delete-btn"
+<button class="small-btn delete-btn"
 onclick="deleteCustomer(${index})">
-🗑 Delete Customer
+🗑 Delete
 </button>
+
+</div>
 
 </div>
 
