@@ -8,12 +8,12 @@ show();
 function addCustomer(){
 
 let name =
-document.getElementById("name").value;
+document.getElementById("name").value.trim();
 
 let phone =
-document.getElementById("phone").value;
+document.getElementById("phone").value.trim();
 
-if(!name || !phone){
+if(name === "" || phone === ""){
 
 alert("Fill all fields");
 
@@ -21,8 +21,10 @@ return;
 
 }
 
+/* duplicate check */
+
 let existing =
-customers.find(c => c.phone == phone);
+customers.find(c => c.phone === phone);
 
 if(existing){
 
@@ -31,6 +33,8 @@ alert("Customer Already Exists");
 return;
 
 }
+
+/* new customer */
 
 customers.push({
 
@@ -41,16 +45,25 @@ balance:0
 
 });
 
+/* save */
+
 localStorage.setItem(
 "data",
 JSON.stringify(customers)
 );
 
+/* clear */
+
+document.getElementById("name").value = "";
+document.getElementById("phone").value = "";
+
+/* refresh */
+
 show();
 
 }
 
-/* SHOW */
+/* SHOW CUSTOMERS */
 
 function show(){
 
@@ -95,13 +108,15 @@ list.innerHTML += `
 
 <h3>💵 Pending ₹${c.balance}</h3>
 
-<button onclick="addEntry(${index})">
+<button class="action-btn"
+onclick="addEntry(${index})">
 
 ➕ Add Daily Entry
 
 </button>
 
-<button onclick="receivePayment(${index})">
+<button class="pay-btn"
+onclick="receivePayment(${index})">
 
 💵 Receive Payment
 
@@ -114,7 +129,7 @@ href="https://wa.me/91${c.phone}?text=${encodeURIComponent(
 Pending Amount ₹${c.balance}`
 )}">
 
-<button>
+<button class="whatsapp-btn">
 
 💬 WhatsApp Reminder
 
@@ -130,20 +145,22 @@ ${entriesHTML}
 
 });
 
+/* dashboard */
+
 document.getElementById("pending").innerText =
-"₹"+total;
+"₹" + total;
 
 document.getElementById("totalCustomers").innerText =
 customers.length;
 
 }
 
-/* DAILY ENTRY */
+/* ADD DAILY ENTRY */
 
 function addEntry(index){
 
 let item =
-prompt("Enter Item");
+prompt("Enter Item Name");
 
 let price =
 prompt("Enter Price");
@@ -220,7 +237,8 @@ document.querySelectorAll(".customer")
 
 c.style.display =
 c.innerText.toLowerCase().includes(value)
-? "block":"none";
+? "block"
+: "none";
 
 });
 
