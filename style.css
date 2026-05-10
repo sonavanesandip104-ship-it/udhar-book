@@ -12,12 +12,26 @@ body{
   border-radius:15px;
 }
 
-h1{text-align:center;}
+h1{
+  text-align:center;
+}
 
+.shop-logo{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  display:block;
+  margin:auto;
+  border:3px solid #6c5ce7;
+  object-fit:cover;
+}
+
+/* Dashboard */
 .dashboard{
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
   gap:10px;
+  margin-top:20px;
 }
 
 .card{
@@ -28,22 +42,27 @@ h1{text-align:center;}
   border-radius:10px;
 }
 
+/* Form */
 .form input{
   width:100%;
   padding:10px;
   margin-top:10px;
+  border:1px solid #ccc;
+  border-radius:8px;
 }
 
 button{
   width:100%;
   padding:12px;
   margin-top:10px;
+  border:none;
   background:#00b894;
   color:white;
-  border:none;
   border-radius:8px;
+  font-weight:bold;
 }
 
+/* Customer */
 .customer{
   background:#f1f2f6;
   padding:15px;
