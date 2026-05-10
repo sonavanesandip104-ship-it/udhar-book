@@ -8,83 +8,49 @@ show();
 function addCustomer(){
 
 let name =
-document.getElementById("name").value.trim();
+document.getElementById("name").value;
 
 let phone =
-document.getElementById("phone").value.trim();
+document.getElementById("phone").value;
 
-let item =
-document.getElementById("item").value.trim();
+if(!name || !phone){
 
-let price =
-Number(document.getElementById("price").value);
+alert("Fill all fields");
 
-if(name === "" || phone === "" || item === "" || !price){
+return;
 
-  alert("Please Fill All Fields");
-
-  return;
 }
 
-/* EXISTING CUSTOMER */
-
 let existing =
-customers.find(c => c.phone === phone);
+customers.find(c => c.phone == phone);
 
 if(existing){
 
-  existing.items.push({
+alert("Customer Already Exists");
 
-    item:item,
-    price:price,
-    date:new Date().toLocaleDateString(),
-    paid:false
-
-  });
-
-  existing.balance += price;
-
-}
-else{
-
-  customers.push({
-
-    name:name,
-    phone:phone,
-
-    items:[
-      {
-        item:item,
-        price:price,
-        date:new Date().toLocaleDateString(),
-        paid:false
-      }
-    ],
-
-    balance:price
-
-  });
+return;
 
 }
 
-/* SAVE */
+customers.push({
+
+name:name,
+phone:phone,
+entries:[],
+balance:0
+
+});
 
 localStorage.setItem(
 "data",
 JSON.stringify(customers)
 );
 
-/* CLEAR INPUTS */
-
-clearInputs();
-
-/* REFRESH UI */
-
 show();
 
 }
 
-/* SHOW CUSTOMERS */
+/* SHOW */
 
 function show(){
 
@@ -99,31 +65,19 @@ customers.forEach((c,index)=>{
 
 total += c.balance;
 
-let itemsHTML = "";
+let entriesHTML = "";
 
-c.items.forEach((i,itemIndex)=>{
+c.entries.forEach(e=>{
 
-itemsHTML += `
+entriesHTML += `
 
-<div class="item-box">
+<div class="entry">
 
-<p>📅 ${i.date}</p>
-
-<p>🛒 ${i.item}</p>
-
-<p>💰 ₹${i.price}</p>
-
-<p class="${i.paid ? 'paid':'pending'}">
-
-${i.paid ? '✅ Paid':'❌ Pending'}
-
-</p>
-
-<button onclick="clearItem(${index},${itemIndex})">
-
-✅ Clear Payment
-
-</button>
+📅 ${e.date}
+<br>
+🛒 ${e.item}
+<br>
+💰 ₹${e.price}
 
 </div>
 
@@ -139,22 +93,28 @@ list.innerHTML += `
 
 <p>📞 ${c.phone}</p>
 
-${itemsHTML}
+<h3>💵 Pending ₹${c.balance}</h3>
 
-<h3>💵 Total Pending: ₹${c.balance}</h3>
+<button onclick="addEntry(${index})">
+
+➕ Add Daily Entry
+
+</button>
+
+<button onclick="receivePayment(${index})">
+
+💵 Receive Payment
+
+</button>
 
 <a target="_blank"
 href="https://wa.me/91${c.phone}?text=${encodeURIComponent(
 `📒 Udhar Reminder
 
-👤 ${c.name}
-
-Pending Amount: ₹${c.balance}
-
-Please Pay Your Udhari`
+Pending Amount ₹${c.balance}`
 )}">
 
-<button class="whatsapp-btn">
+<button>
 
 💬 WhatsApp Reminder
 
@@ -162,39 +122,81 @@ Please Pay Your Udhari`
 
 </a>
 
+${entriesHTML}
+
 </div>
 
 `;
 
 });
 
-/* DASHBOARD */
-
 document.getElementById("pending").innerText =
-"₹" + total;
+"₹"+total;
 
 document.getElementById("totalCustomers").innerText =
 customers.length;
 
 }
 
-/* CLEAR PAYMENT */
+/* DAILY ENTRY */
 
-function clearItem(customerIndex,itemIndex){
+function addEntry(index){
 
 let item =
-customers[customerIndex].items[itemIndex];
+prompt("Enter Item");
 
-if(item.paid){
+let price =
+prompt("Enter Price");
 
-  alert("Already Paid");
+if(item && price){
 
-  return;
+customers[index].entries.push({
+
+item:item,
+price:Number(price),
+date:new Date().toLocaleDateString()
+
+});
+
+customers[index].balance += Number(price);
+
+localStorage.setItem(
+"data",
+JSON.stringify(customers)
+);
+
+show();
+
 }
 
-item.paid = true;
+}
 
-customers[customerIndex].balance -= item.price;
+/* RECEIVE PAYMENT */
+
+function receivePayment(index){
+
+let amount =
+prompt("Enter Received Amount");
+
+amount = Number(amount);
+
+if(!amount || amount <= 0){
+
+alert("Invalid Amount");
+
+return;
+
+}
+
+if(amount > customers[index].balance){
+
+alert("Amount Greater Than Pending");
+
+return;
+
+}
+
+customers[index].balance -= amount;
 
 localStorage.setItem(
 "data",
@@ -218,23 +220,8 @@ document.querySelectorAll(".customer")
 
 c.style.display =
 c.innerText.toLowerCase().includes(value)
-? "block"
-: "none";
+? "block":"none";
 
 });
-
-}
-
-/* CLEAR INPUTS */
-
-function clearInputs(){
-
-document.getElementById("name").value = "";
-
-document.getElementById("phone").value = "";
-
-document.getElementById("item").value = "";
-
-document.getElementById("price").value = "";
 
 }
