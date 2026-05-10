@@ -1,24 +1,8 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import {
-getFirestore,
-collection,
-addDoc,
-getDocs
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+let customers = JSON.parse(localStorage.getItem("data")) || [];
 
-// 🔥 Firebase Config (replace your keys)
-const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_DOMAIN",
-  projectId: "YOUR_ID"
-};
+show();
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-let customers = [];
-
-window.addCustomer = async function(){
+function addCustomer(){
 
 let name = document.getElementById("name").value;
 let phone = document.getElementById("phone").value;
@@ -30,33 +14,23 @@ if(!name || !phone || !item || !price){
   return;
 }
 
-await addDoc(collection(db,"customers"),{
+customers.push({
   name,
   phone,
-  items:[{item,price}],
-  total:price,
+  item,
+  price,
   balance:price,
-  date:new Date().toLocaleDateString(),
-  paid:false
+  date:new Date().toLocaleDateString()
 });
 
-load();
+localStorage.setItem("data",JSON.stringify(customers));
+
+clearInputs();
+show();
+
 }
 
-async function load(){
-
-let snap = await getDocs(collection(db,"customers"));
-
-customers = [];
-
-snap.forEach(doc=>{
-  customers.push(doc.data());
-});
-
-render();
-}
-
-function render(){
+function show(){
 
 let list = document.getElementById("list");
 list.innerHTML="";
@@ -66,18 +40,20 @@ let total=0,paid=0;
 customers.forEach(c=>{
 
 total += c.balance;
-if(c.paid) paid++;
+if(c.balance==0) paid++;
 
 list.innerHTML += `
 <div class="customer">
 
 <h3>👤 ${c.name}</h3>
 <p>📅 ${c.date}</p>
+<p>🛒 ${c.item}</p>
 <p>💰 ₹${c.balance}</p>
 
 <a target="_blank"
 href="https://wa.me/91${c.phone}?text=${encodeURIComponent(
 `Hi ${c.name}
+Item: ${c.item}
 Pending: ₹${c.balance}
 Please pay soon`
 )}">
@@ -91,21 +67,26 @@ Please pay soon`
 
 });
 
-document.getElementById("pending").innerText="₹"+total;
 document.getElementById("totalCustomers").innerText=customers.length;
+document.getElementById("pending").innerText="₹"+total;
 document.getElementById("paid").innerText=paid;
 
 }
 
-window.search = function(){
+function searchCustomer(){
 
 let val = document.getElementById("search").value.toLowerCase();
 
-document.querySelectorAll(".customer").forEach(el=>{
-  el.style.display = el.innerText.toLowerCase().includes(val)
+document.querySelectorAll(".customer").forEach(c=>{
+  c.style.display = c.innerText.toLowerCase().includes(val)
   ? "block":"none";
 });
 
 }
 
-load();
+function clearInputs(){
+document.getElementById("name").value="";
+document.getElementById("phone").value="";
+document.getElementById("item").value="";
+document.getElementById("price").value="";
+}
